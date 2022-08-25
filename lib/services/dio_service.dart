@@ -10,8 +10,8 @@ import '../models/collection_model.dart';
 class Network {
   static bool isTester = true;
 
-  static String SERVER_DEVELOPMENT = "https://api.unsplash.com";
-  static String SERVER_DEPLOYMENT = "https://api.unsplash.com";
+  static const SERVER_DEVELOPMENT = "https://api.unsplash.com";
+  static const SERVER_DEPLOYMENT = "https://api.unsplash.com";
 
   static Dio dio = Dio(
     BaseOptions(
@@ -77,7 +77,8 @@ class Network {
     return params;
   }
 
-  static Map<String, String> paramsUnsplashSearchPage(String word, int page, [int perPage = 6]) {
+  static Map<String, String> paramsUnsplashSearchPage(String word, int page,
+      [int perPage = 6]) {
     Map<String, String> params = {
       'query': word,
       'page': page.toString(),
@@ -89,10 +90,12 @@ class Network {
   // ! Http Parsing
   static List<Unsplash> parseUnsplash(String body) => unsplashFromJson(body);
 
-  static List<Unsplash> parseSearchUnsplash(String body) =>
-      unsplashFromJson(jsonEncode(jsonDecode(body)['results']));
+  static List<Unsplash> parseSearchUnsplash(String body) => unsplashFromJson(
+        jsonEncode(jsonDecode(body)['results']),
+      );
 
   static List<Topic> parseTopicUnsplash(String body) => topicFromJson(body);
 
-  static List<Collections> parseCollectionsUnsplash(String body) => collectionFromJson(body);
+  static List<Collections> parseCollectionsUnsplash(String body) =>
+      collectionFromJson(body);
 }

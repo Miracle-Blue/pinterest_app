@@ -1,7 +1,7 @@
 Map<String, String> popularItems = {
   'assets/images/img_1.png': 'White background',
   'assets/images/img_2.png': 'Green wallpaper',
-  'assets/images/img_3.png': 'Modern kitchen design',
+  'assets/images/no_network.png': 'Modern kitchen design',
   'assets/images/img_4.png': 'Crockpot recipes',
 };
 

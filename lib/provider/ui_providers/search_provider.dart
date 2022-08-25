@@ -34,7 +34,7 @@ class SearchProvider extends ChangeNotifier {
       notifyListeners();
     });
 
-    changePage();
+    WidgetsBinding.instance.addPostFrameCallback((_) => changePage());
   }
 
   void changePage() async {

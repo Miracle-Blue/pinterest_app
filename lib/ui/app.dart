@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:pinterest_app/injection.dart';
 import 'package:pinterest_app/provider/app_provider.dart';
@@ -18,15 +19,45 @@ class MyApp extends StatelessWidget {
 }
 
 class _View extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final app = context.watch<AppProvider>()!;
-    if (app.isConnectedInNet) {
-      return const _ConnectUI();
-    } else {
-      return const _NoConnectUI();
-    }
+
+    return StreamBuilder<ConnectivityResult>(
+      stream: app.stream,
+      builder: (context, snapshot) {
+        if (snapshot.data == null) {
+          return const _Loading();
+        } else if (snapshot.data == ConnectivityResult.mobile ||
+            snapshot.data == ConnectivityResult.wifi) {
+          return const _ConnectUI();
+        } else {
+          return const _NoConnectUI();
+        }
+      },
+    );
+  }
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Pinterest',
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        primarySwatch: Colors.blueGrey,
+      ),
+      debugShowCheckedModeBanner: false,
+      home: const ColoredBox(
+        color: Colors.white,
+        child: Center(
+          child: CircularProgressIndicator.adaptive(),
+        ),
+      ),
+    );
   }
 }
 
@@ -36,7 +67,7 @@ class _ConnectUI extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pinterest UI',
+      title: 'Pinterest',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.blueGrey,
@@ -51,7 +82,6 @@ class _ConnectUI extends StatelessWidget {
   }
 }
 
-
 class _NoConnectUI extends StatelessWidget {
   const _NoConnectUI({Key? key}) : super(key: key);
 
@@ -59,6 +89,7 @@ class _NoConnectUI extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: 'Pinterest',
       home: Scaffold(
         body: Container(
           color: Colors.white,
@@ -67,7 +98,7 @@ class _NoConnectUI extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset(
-                  "assets/icons/img_3.png",
+                  "assets/icons/no_network.png",
                   height: 50,
                 ),
                 const Text(
@@ -88,4 +119,3 @@ class _NoConnectUI extends StatelessWidget {
     );
   }
 }
-

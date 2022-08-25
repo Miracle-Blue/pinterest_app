@@ -8,8 +8,6 @@ class PageViewProvider extends ChangeNotifier {
 
   final ValueNotifier value = ValueNotifier(0);
 
-  bool isConnectedInNet = false;
-
   PageViewProvider() {
     _apiGetUnsplashTopic();
     _apiGetUnsplashTopicLiveTV();
